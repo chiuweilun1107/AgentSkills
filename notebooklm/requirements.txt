@@ -1,0 +1,8 @@
+# NotebookLM Skill Dependencies
+# Uses notebooklm-py for API access (replaces browser automation)
+
+# Core: NotebookLM Python client with browser login support
+notebooklm-py[browser]>=0.3.2
+
+# Environment management
+python-dotenv==1.0.0
