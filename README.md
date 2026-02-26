@@ -30,7 +30,7 @@ cp -r <skill-name> ~/.openclaw/skills/<skill-name>
 
 | Skill | Description |
 |-------|-------------|
-| [skill-forge](./skill-forge/) | Create, validate, and deploy AI agent skills with full lifecycle management |
+| [skill-builder](./skill-builder/) | Create, validate, and deploy AI agent skills following Anthropic best practices |
 | [notebooklm](./notebooklm/) | Query, create, and manage Google NotebookLM notebooks via notebooklm-py API |
 
 ## License

@@ -1,6 +1,6 @@
 ---
 name: notebooklm
-description: Use this skill to create notebooks, add sources, and query your Google NotebookLM notebooks directly from Claude Code. Powered by notebooklm-py (Python API client). Source-grounded answers from Gemini with citation backing. Library management, persistent auth, notebook creation from text/files/URLs.
+description: 'Query, create, and manage Google NotebookLM notebooks via notebooklm-py API. Use when user mentions NotebookLM, shares a notebooklm.google.com URL, wants to query documentation, create notebooks, add sources from text/files/URLs, or says "問我的筆記本", "開新筆記本", "加入來源". Source-grounded Gemini answers with citations.'
 ---
 
 # NotebookLM Research Assistant Skill

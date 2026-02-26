@@ -1,9 +1,9 @@
 ---
-name: skill-forge
-description: 'Create, validate, and deploy AI agent skills with full lifecycle management. Use when user asks to create a skill, build a skill, make a new skill, forge a skill, or mentions "skill-forge". Includes automated validation, trigger optimization, and deployment to Claude Code + OpenClaw + AgentSkills GitHub repo.'
+name: skill-builder
+description: 'Create, validate, and deploy AI agent skills following Anthropic best practices. Use when user asks to create a skill, build a skill, make a new skill, write a skill, or says "幫我做一個skill". Automated SKILL.md validation, trigger optimization, dual-platform deployment to Claude Code and OpenClaw.'
 ---
 
-# Skill Forge
+# Skill Builder
 
 Create production-quality skills with automated validation and dual-platform deployment. Based on Anthropic official best practices, community research, and real-world trigger optimization data.
 
