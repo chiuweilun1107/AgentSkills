@@ -30,6 +30,7 @@ cp -r <skill-name> ~/.openclaw/skills/<skill-name>
 
 | Skill | Description |
 |-------|-------------|
+| [github-cli](./github-cli/) | GitHub operations via gh CLI — repos, issues, PRs, releases, Actions |
 | [skill-builder](./skill-builder/) | Create, validate, and deploy AI agent skills following Anthropic best practices |
 | [notebooklm](./notebooklm/) | Query, create, and manage Google NotebookLM notebooks via notebooklm-py API |
 
