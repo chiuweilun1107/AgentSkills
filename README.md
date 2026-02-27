@@ -33,7 +33,7 @@ cp -r <skill-name> ~/.openclaw/skills/<skill-name>
 | [github-cli](./github-cli/) | GitHub operations via gh CLI — repos, issues, PRs, releases, Actions |
 | [notebooklm](./notebooklm/) | Query, create, and manage Google NotebookLM notebooks via notebooklm-py API |
 | [skill-builder](./skill-builder/) | Create, validate, and deploy AI agent skills following Anthropic best practices |
-| [supabase-ops](./supabase-ops/) | Self-hosted Supabase operations — health checks, DB queries, migrations, backup/restore |
+| [supabase](./supabase/) | Supabase development + self-hosted ops + pgvector/RAG (with references/) |
 
 ## License
 
