@@ -30,6 +30,7 @@ cp -r <skill-name> ~/.openclaw/skills/<skill-name>
 
 | Skill | Description |
 |-------|-------------|
+| [docker](./docker/) | Docker CLI, Compose, Dockerfile, Exec, Engine API, Python SDK — container lifecycle and orchestration |
 | [github](./github/) | GitHub operations via CLI, REST API, SDK, MCP — repos, issues, PRs, releases, Actions |
 | [notebooklm](./notebooklm/) | Query, create, and manage Google NotebookLM notebooks via notebooklm-py API |
 | [skill-builder](./skill-builder/) | Create, validate, and deploy AI agent skills following Anthropic best practices |
