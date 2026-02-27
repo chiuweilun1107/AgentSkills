@@ -220,3 +220,188 @@ Example: `20260227120000_add_embeddings_table.sql`
 - Granular policies (one per operation per role)
 - Include header comment with purpose
 - Add comments for destructive operations (DROP, TRUNCATE, ALTER COLUMN)
+
+---
+
+## REST API (PostgREST)
+
+Supabase exposes every table as a REST endpoint via PostgREST (port 54321).
+
+### CRUD Operations
+
+```bash
+# SELECT (GET)
+curl 'http://localhost:54321/rest/v1/instruments?select=*&limit=10' \
+  -H "apikey: <anon-key>"
+
+# SELECT with filters
+curl 'http://localhost:54321/rest/v1/instruments?symbol=eq.TSMC&select=symbol,name' \
+  -H "apikey: <anon-key>"
+
+# INSERT (POST)
+curl -X POST 'http://localhost:54321/rest/v1/instruments' \
+  -H "apikey: <anon-key>" \
+  -H "Content-Type: application/json" \
+  -H "Prefer: return=representation" \
+  -d '{"symbol": "AAPL", "name": "Apple Inc."}'
+
+# UPDATE (PATCH)
+curl -X PATCH 'http://localhost:54321/rest/v1/instruments?symbol=eq.AAPL' \
+  -H "apikey: <anon-key>" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Apple Inc. (Updated)"}'
+
+# DELETE
+curl -X DELETE 'http://localhost:54321/rest/v1/instruments?symbol=eq.AAPL' \
+  -H "apikey: <anon-key>"
+
+# RPC (call database functions)
+curl -X POST 'http://localhost:54321/rest/v1/rpc/match_documents' \
+  -H "apikey: <anon-key>" \
+  -H "Content-Type: application/json" \
+  -d '{"query_embedding": [0.1, 0.2], "match_count": 5}'
+```
+
+### Filter Operators
+
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `eq` | equals | `?status=eq.active` |
+| `neq` | not equals | `?status=neq.deleted` |
+| `gt` / `gte` | greater than | `?price=gt.100` |
+| `lt` / `lte` | less than | `?price=lt.50` |
+| `like` | pattern match | `?name=like.*apple*` |
+| `ilike` | case-insensitive | `?name=ilike.*apple*` |
+| `in` | in list | `?id=in.(1,2,3)` |
+| `is` | null check | `?deleted_at=is.null` |
+| `order` | sort | `?order=created_at.desc` |
+
+### Auth Headers
+
+| Header | Value | When |
+|--------|-------|------|
+| `apikey` | anon key | Always required |
+| `Authorization` | `Bearer <user-jwt>` | Authenticated requests (RLS applies) |
+| `Authorization` | `Bearer <service-role-key>` | Bypass RLS (admin only) |
+
+---
+
+## SDK (supabase-py / supabase-js)
+
+### Python SDK
+
+```bash
+pip install supabase
+```
+
+```python
+from supabase import create_client
+
+url = "http://localhost:54321"
+key = "your-anon-key"  # or service_role key for admin
+supabase = create_client(url, key)
+
+# SELECT
+result = supabase.table("instruments").select("*").limit(10).execute()
+print(result.data)  # list[dict]
+
+# SELECT with filters
+result = supabase.table("instruments") \
+    .select("symbol, name") \
+    .eq("symbol", "TSMC") \
+    .execute()
+
+# INSERT
+result = supabase.table("instruments") \
+    .insert({"symbol": "AAPL", "name": "Apple Inc."}) \
+    .execute()
+
+# UPDATE
+result = supabase.table("instruments") \
+    .update({"name": "Apple Inc. (Updated)"}) \
+    .eq("symbol", "AAPL") \
+    .execute()
+
+# DELETE
+result = supabase.table("instruments") \
+    .delete() \
+    .eq("symbol", "AAPL") \
+    .execute()
+
+# RPC (call database functions)
+result = supabase.rpc("match_documents", {
+    "query_embedding": [0.1, 0.2],
+    "match_count": 5
+}).execute()
+
+# Auth (if using Supabase Auth)
+supabase.auth.sign_in_with_password({"email": "x@y.com", "password": "pass"})
+```
+
+### JavaScript/TypeScript SDK
+
+```bash
+npm install @supabase/supabase-js
+```
+
+```typescript
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient('http://localhost:54321', 'your-anon-key')
+
+// SELECT
+const { data, error } = await supabase
+  .from('instruments')
+  .select('*')
+  .limit(10)
+
+// SELECT with filters
+const { data } = await supabase
+  .from('instruments')
+  .select('symbol, name')
+  .eq('symbol', 'TSMC')
+
+// INSERT
+const { data } = await supabase
+  .from('instruments')
+  .insert({ symbol: 'AAPL', name: 'Apple Inc.' })
+  .select()  // return inserted row
+
+// UPDATE
+const { data } = await supabase
+  .from('instruments')
+  .update({ name: 'Apple Inc. (Updated)' })
+  .eq('symbol', 'AAPL')
+  .select()
+
+// DELETE
+const { error } = await supabase
+  .from('instruments')
+  .delete()
+  .eq('symbol', 'AAPL')
+
+// RPC
+const { data } = await supabase.rpc('match_documents', {
+  query_embedding: [0.1, 0.2],
+  match_count: 5
+})
+
+// Realtime subscription
+const channel = supabase
+  .channel('instruments-changes')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'instruments' },
+    (payload) => console.log('Change:', payload))
+  .subscribe()
+```
+
+### Mode Selection Guide
+
+| Scenario | Use |
+|----------|-----|
+| Quick SQL query / admin task | `docker exec ... psql` (Docker Exec) |
+| Manage services (start/stop/backup) | `supabase` CLI |
+| Application code (Python) | `supabase-py` SDK |
+| Application code (JS/TS) | `@supabase/supabase-js` SDK |
+| Testing API endpoints / CI/CD | `curl` + REST API |
+| Realtime subscriptions | JS SDK only (WebSocket) |
+| Bypass RLS (admin) | service_role key in any mode |
