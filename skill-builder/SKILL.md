@@ -10,14 +10,77 @@ Create production-quality skills with automated validation and dual-platform dep
 ## Process Overview
 
 ```
-1. GATHER   → Requirements, triggers, resources needed
-2. SCAFFOLD → SKILL.md + scripts/references/assets
-3. VALIDATE → Run validate_skill.py (automated checks)
-4. TEST     → 3+ real usage scenarios
-5. DEPLOY   → Claude Code + OpenClaw + AgentSkills repo
+0. RESEARCH  → Web search + local audit + operation mode analysis
+1. GATHER    → Requirements, triggers, resources needed
+2. SCAFFOLD  → SKILL.md + scripts/references/assets
+3. VALIDATE  → Run validate_skill.py (automated checks)
+4. TEST      → 3+ real usage scenarios
+5. DEPLOY    → Claude Code + OpenClaw + AgentSkills repo
 ```
 
-Follow ALL steps. Never skip validation or testing.
+Follow ALL steps. Never skip research, validation, or testing.
+
+## Step 0: Research (MANDATORY)
+
+**Before writing a single line, search the web.** Never assume no prior art exists.
+
+### 0a. Web search (REQUIRED — do this FIRST)
+
+Search for existing skills, official docs, and community best practices:
+
+```
+Search queries (run at least 2-3):
+- "claude code skill <service-name>"
+- "<service-name> AI agent skill"
+- "<service-name> CLI reference"
+- "<service-name> official documentation"
+- "awesome <service-name>" (community curated lists)
+```
+
+What to look for:
+- Official agent/skill repos (e.g., github.com/supabase/agent-skills)
+- Community skills that already solve the problem
+- Official CLI/API/SDK documentation to understand full capabilities
+- Best practices and common patterns others use
+
+### 0b. Local audit (supplement)
+
+```bash
+# Check Claude Code
+ls ~/.claude/skills/ | grep <keyword>
+
+# Check OpenClaw
+ssh macmini "ls ~/.openclaw/skills/ | grep <keyword>"
+
+# Check AgentSkills repo
+ls ~/path/to/AgentSkills/ | grep <keyword>
+```
+
+### 0c. Operation mode analysis (for service/tool skills)
+
+When building a skill for an external service or tool, map ALL interaction modes:
+
+| Mode | Description | Example | Include when... |
+|------|-------------|---------|-----------------|
+| **CLI** | Command-line tool | `gh`, `docker`, `supabase` | Tool is installed on target machines |
+| **Exec** | Execute inside container | `docker exec db psql` | Service runs in Docker |
+| **REST API** | HTTP endpoints | `curl api.github.com` | Programmatic access needed |
+| **SDK** | Language libraries | `supabase-py`, `@octokit` | Integrating into code |
+| **MCP** | Model Context Protocol | Cloudflare MCP server | MCP server exists |
+| **GUI** | Web dashboard | Supabase Studio, GitHub web | Reference only (not for skill) |
+
+**Decision**: Include modes the agent will ACTUALLY USE in practice. Don't document what Claude already knows (e.g., generic curl syntax). Focus on non-obvious commands, gotchas, and environment-specific details.
+
+### 0d. Decide architecture
+
+| Condition | Architecture |
+|-----------|-------------|
+| Single mode, <300 lines total | SKILL.md only |
+| Single mode, 300-500 lines | SKILL.md + 1-2 references |
+| Multiple modes or domains | SKILL.md (decision flow) + `references/` per mode/domain |
+| Heavy reference data (schemas, API docs) | SKILL.md (workflow) + `references/` per topic |
+
+Conclude Step 0 when you have: prior art summary, operation modes list, and architecture decision.
 
 ## Step 1: Gather Requirements
 
@@ -26,8 +89,9 @@ Ask the user (max 3 questions at once):
 1. **What does the skill do?** Get 2-3 concrete usage examples.
 2. **What triggers it?** Keywords, phrases, file types, situations.
 3. **What resources?** Scripts, APIs, references, templates.
+4. **What operation modes?** (for service/tool skills) Which of CLI/API/SDK/Exec/MCP does the agent need?
 
-Conclude when you have clear: purpose, triggers, and resource list.
+Conclude when you have clear: purpose, triggers, resource list, and operation modes.
 
 ## Step 2: Scaffold
 
@@ -141,6 +205,21 @@ references/gcp.md → GCP-specific details
 SKILL.md       → Basic usage inline
 REDLINING.md   → Advanced tracked changes (loaded only for that feature)
 ```
+
+**When to use references/:**
+- Skill covers 2+ distinct domains or operation modes
+- Total content would exceed 400 lines in SKILL.md alone
+- Some content is only needed in specific scenarios (conditional loading)
+- Heavy reference data (API docs, schemas, SQL templates)
+
+**When NOT to use references/:**
+- All content fits in <300 lines
+- Content is always needed (not conditional)
+- Only one domain/mode
+
+**Naming convention:** Name by TOPIC, not by sequence:
+- `references/operations.md` (NOT `references/part1.md`)
+- `references/development.md` (NOT `references/advanced.md`)
 
 **Rules for references:**
 - One level deep only (SKILL.md → file, never SKILL.md → A → B)
@@ -275,6 +354,9 @@ For detailed guidance on specific topics:
 
 ## Final Checklist
 
+- [ ] Web search completed (2-3 queries, prior art reviewed)
+- [ ] Operation modes analyzed (CLI/API/SDK/Exec/MCP)
+- [ ] Architecture decided (SKILL.md only vs references/)
 - [ ] Frontmatter: name + description only, single-quoted, <1024 chars
 - [ ] Description: third person, "Use when...", 5+ keywords, no workflow summary
 - [ ] Body: <500 lines, imperative form, concrete examples, no token waste
