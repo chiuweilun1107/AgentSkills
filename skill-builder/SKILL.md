@@ -234,6 +234,8 @@ Fix ALL errors. Warnings are advisory.
 | **Reference** (API docs) | Information retrieval, correct usage |
 | **Discipline** (rules) | Compliance under pressure, rationalization resistance |
 
+For discipline-enforcing skills (TDD, guardrails), add pressure testing and rationalization resistance checks. See [references/testing.md](references/testing.md) for detailed methodology.
+
 ## Step 5: Deploy
 
 ### 5a. Deploy to Claude Code (local)
@@ -263,6 +265,13 @@ git push
 
 ### 5d. Update AgentSkills README
 Add new skill to the Available Skills table.
+
+## References
+
+For detailed guidance on specific topics:
+
+- **[references/hooks.md](references/hooks.md)** — Claude Code hooks for skill enforcement: UserPromptSubmit (suggest skills), PreToolUse (block until skill used), skill-rules.json, enforcement levels, testing commands
+- **[references/testing.md](references/testing.md)** — Advanced testing methodology: pressure testing discipline skills, rationalization resistance, RED-GREEN-REFACTOR cycle for skills, testing by skill type
 
 ## Final Checklist
 
