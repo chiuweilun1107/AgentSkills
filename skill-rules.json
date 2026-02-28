@@ -1,0 +1,118 @@
+{
+  "skills": [
+    {
+      "name": "docker",
+      "triggers": {
+        "keywords": [
+          "docker",
+          "dockerfile",
+          "docker-compose",
+          "compose"
+        ],
+        "patterns": [
+          "build.*image",
+          "run.*container",
+          "docker.*exec",
+          "docker.*logs",
+          "compose.*up",
+          "multi-stage.*build"
+        ]
+      }
+    },
+    {
+      "name": "github",
+      "triggers": {
+        "keywords": [
+          "github",
+          "gh",
+          "repo",
+          "repository",
+          "pull request",
+          "pr",
+          "issue",
+          "release",
+          "github actions",
+          "workflow"
+        ],
+        "patterns": [
+          "push.*github",
+          "create.*repo",
+          "open.*pr",
+          "github.*api",
+          "gh.*cli"
+        ]
+      }
+    },
+    {
+      "name": "google",
+      "triggers": {
+        "keywords": [
+          "gmail",
+          "email",
+          "信件",
+          "calendar",
+          "行事曆",
+          "google docs",
+          "文件",
+          "sheets",
+          "試算表",
+          "slides",
+          "簡報",
+          "youtube",
+          "drive",
+          "雲端硬碟"
+        ],
+        "patterns": [
+          "send.*email",
+          "create.*doc",
+          "google.*workspace",
+          "calendar.*event"
+        ]
+      }
+    },
+    {
+      "name": "notebooklm",
+      "triggers": {
+        "keywords": [
+          "notebooklm",
+          "notebook",
+          "筆記本",
+          "query",
+          "查詢",
+          "文件",
+          "documentation",
+          "source"
+        ],
+        "patterns": [
+          "ask.*notebook",
+          "query.*doc",
+          "create.*notebook",
+          "add.*source"
+        ]
+      }
+    },
+    {
+      "name": "supabase",
+      "triggers": {
+        "keywords": [
+          "supabase",
+          "資料庫",
+          "database",
+          "migration",
+          "edge function",
+          "rls",
+          "pgvector",
+          "vector search",
+          "rag",
+          "postgresql"
+        ],
+        "patterns": [
+          "database.*query",
+          "supabase.*setup",
+          "vector.*search",
+          "migration.*schema"
+        ]
+      }
+    }
+  ]
+}

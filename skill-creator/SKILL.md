@@ -334,6 +334,8 @@ This is optional, requires subagents, and most users won't need it. The human re
 
 The description field in SKILL.md frontmatter is the primary mechanism that determines whether Claude invokes a skill. After creating or improving a skill, offer to optimize the description for better triggering accuracy.
 
+⚠️ **Important Limitation:** Claude has a documented tendency to "under-trigger" skills — even well-written descriptions typically achieve only 20-30% activation rates. Description optimization is most effective when combined with hook-based skill detection (see `references/skill-detection-hook.md` for implementation details). For reliably triggering skills (80%+), use keyword or keyword+pattern detection hooks instead of relying solely on description text.
+
 ### Step 1: Generate trigger eval queries
 
 Create 20 eval queries — a mix of should-trigger and should-not-trigger. Save as JSON:
