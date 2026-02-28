@@ -80,10 +80,11 @@ def main():
             matched_skills.append(skill_name)
 
     if matched_skills:
+        skill_hint = matched_skills[0] if len(matched_skills) == 1 else matched_skills[0]
         suggestion = (
             f"\n[Skill Detection] Based on your prompt, these skills might be relevant:\n"
             f"- {', '.join(matched_skills)}\n"
-            f"Use `/skill {skill_name}` to load a specific skill if you need it.\n"
+            f"Use `/skill {skill_hint}` to load a specific skill if you need it.\n"
         )
         print(suggestion, file=sys.stderr)
 
