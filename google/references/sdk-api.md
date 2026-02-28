@@ -2,6 +2,9 @@
 
 ## Table of Contents
 - [Python SDK (google-api-python-client)](#python-sdk-google-api-python-client)
+  - [Authentication](#authentication) | [Service Account](#service-account-server-to-server)
+  - [Gmail API](#gmail-api) | [Calendar API](#calendar-api) | [Sheets API](#sheets-api)
+  - [Docs API](#docs-api) | [Slides API](#slides-api) | [Drive API](#drive-api) | [YouTube API](#youtube-data-api)
 - [JavaScript SDK (googleapis)](#javascript-sdk-googleapis)
 - [REST API (curl)](#rest-api-curl)
 - [Common Scopes](#common-scopes)
