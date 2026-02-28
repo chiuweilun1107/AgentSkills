@@ -43,7 +43,7 @@ What do you need?
 
 ## Quick Reference (Most Common Operations)
 
-### Auth Check (ALWAYS FIRST)
+### Auth Check (run first — most errors trace back to auth)
 ```bash
 gh auth status
 # If not authenticated: gh auth login

@@ -1,5 +1,11 @@
 # Google SDK & API Reference
 
+## Table of Contents
+- [Python SDK (google-api-python-client)](#python-sdk-google-api-python-client)
+- [JavaScript SDK (googleapis)](#javascript-sdk-googleapis)
+- [REST API (curl)](#rest-api-curl)
+- [Common Scopes](#common-scopes)
+
 ## Python SDK (google-api-python-client)
 
 ### Installation

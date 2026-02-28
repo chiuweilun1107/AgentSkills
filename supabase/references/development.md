@@ -1,5 +1,14 @@
 # Supabase Development Reference
 
+## Table of Contents
+- [Edge Functions (TypeScript/Deno)](#edge-functions-typescriptdeno)
+- [Declarative Schema Management](#declarative-schema-management)
+- [Database Functions](#database-functions)
+- [Row Level Security (RLS)](#row-level-security-rls)
+- [Migration Files](#migration-files)
+- [REST API (PostgREST)](#rest-api-postgrest)
+- [SDK (supabase-py / supabase-js)](#sdk-supabase-py--supabase-js)
+
 ## Edge Functions (TypeScript/Deno)
 
 ### Import Rules

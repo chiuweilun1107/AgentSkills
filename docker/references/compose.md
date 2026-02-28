@@ -1,5 +1,11 @@
 # Docker Compose Reference
 
+## Table of Contents
+- [Commands](#commands)
+- [Compose File Syntax](#compose-file-syntax)
+- [Multi-Environment Pattern](#multi-environment-pattern)
+- [Common Patterns](#common-patterns)
+
 ## Commands
 
 ### Service Lifecycle
