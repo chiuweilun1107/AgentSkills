@@ -12,17 +12,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from auth_manager import AuthManager
-from notebook_manager import NotebookLibrary
-from config import extract_notebook_id
-
-# Follow-up reminder for Claude to evaluate completeness
-FOLLOW_UP_REMINDER = (
-    "\n\nEXTREMELY IMPORTANT: Is that ALL you need to know? "
-    "You can always ask another question! Think about it carefully: "
-    "before you reply to the user, review their original request and this answer. "
-    "If anything is still unclear or missing, ask me another comprehensive question."
-)
-
+from config import resolve_notebook_id
 
 async def ask_notebooklm(question: str, notebook_id: str, source_ids: list[str] | None = None) -> str | None:
     """
@@ -41,9 +31,11 @@ async def ask_notebooklm(question: str, notebook_id: str, source_ids: list[str] 
 
         print(f"Asking: {question}")
         print(f"Notebook: {notebook_id}")
+        if source_ids:
+            print(f"Targeting sources: {source_ids}")
 
         async with await NotebookLMClient.from_storage() as client:
-            result = await client.chat.ask(notebook_id, question)
+            result = await client.chat.ask(notebook_id, question, source_ids=source_ids)
 
             answer = result.answer
             if not answer:
@@ -56,58 +48,13 @@ async def ask_notebooklm(question: str, notebook_id: str, source_ids: list[str] 
             if result.references:
                 print(f"References: {len(result.references)} citations")
 
-            return answer + FOLLOW_UP_REMINDER
+            return answer
 
     except Exception as e:
         print(f"Error: {e}")
         import traceback
         traceback.print_exc()
         return None
-
-
-def resolve_notebook_id(args) -> str | None:
-    """Resolve notebook ID from args (URL, library ID, or active notebook)."""
-    # Direct notebook URL
-    if args.notebook_url:
-        nid = extract_notebook_id(args.notebook_url)
-        if nid:
-            return nid
-        print(f"Could not extract notebook ID from URL: {args.notebook_url}")
-        return None
-
-    # Library notebook ID
-    if args.notebook_id:
-        library = NotebookLibrary()
-        notebook = library.get_notebook(args.notebook_id)
-        if notebook:
-            url = notebook["url"]
-            nid = extract_notebook_id(url)
-            if nid:
-                # Also try notebooklm_id if stored
-                return notebook.get("notebooklm_id") or nid
-        print(f"Notebook '{args.notebook_id}' not found in library")
-        return None
-
-    # Active notebook
-    library = NotebookLibrary()
-    active = library.get_active_notebook()
-    if active:
-        print(f"Using active notebook: {active['name']}")
-        nid = extract_notebook_id(active["url"])
-        return active.get("notebooklm_id") or nid
-
-    # Show available notebooks
-    notebooks = library.list_notebooks()
-    if notebooks:
-        print("\nAvailable notebooks:")
-        for nb in notebooks:
-            mark = " [ACTIVE]" if nb.get("id") == library.active_notebook_id else ""
-            print(f"  {nb['id']}: {nb['name']}{mark}")
-        print("\nSpecify with --notebook-id or --notebook-url")
-    else:
-        print("No notebooks in library. Add one first:")
-        print("  python scripts/run.py notebook_manager.py add --url URL --name NAME --description DESC --topics TOPICS")
-    return None
 
 
 def main():

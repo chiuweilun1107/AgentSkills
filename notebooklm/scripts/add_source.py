@@ -14,8 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from auth_manager import AuthManager
-from notebook_manager import NotebookLibrary
-from config import extract_notebook_id
+from config import resolve_notebook_id
 
 
 async def add_source_to_notebook(
@@ -91,34 +90,6 @@ async def add_source_to_notebook(
         import traceback
         traceback.print_exc()
         return {"status": "error", "error": str(e)}
-
-
-def resolve_notebook_id(args) -> str | None:
-    """Resolve notebook API ID from args."""
-    if args.notebook_url:
-        nid = extract_notebook_id(args.notebook_url)
-        if nid:
-            return nid
-        print(f"Could not extract notebook ID from URL: {args.notebook_url}")
-        return None
-
-    if args.notebook_id:
-        library = NotebookLibrary()
-        notebook = library.get_notebook(args.notebook_id)
-        if notebook:
-            return notebook.get("notebooklm_id") or extract_notebook_id(notebook["url"])
-        print(f"Notebook '{args.notebook_id}' not found in library")
-        return None
-
-    # Use active notebook
-    library = NotebookLibrary()
-    active = library.get_active_notebook()
-    if active:
-        print(f"Using active notebook: {active['name']}")
-        return active.get("notebooklm_id") or extract_notebook_id(active["url"])
-
-    print("No notebook specified. Use --notebook-url or --notebook-id")
-    return None
 
 
 def main():
