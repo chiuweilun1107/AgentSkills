@@ -24,22 +24,22 @@
       "triggers": {
         "keywords": [
           "github",
-          "gh",
+          "gh cli",
+          "gh repo",
+          "gh pr",
           "repo",
           "repository",
           "pull request",
-          "pr",
-          "issue",
-          "release",
           "github actions",
-          "workflow"
+          "release"
         ],
         "patterns": [
           "push.*github",
           "create.*repo",
           "open.*pr",
           "github.*api",
-          "gh.*cli"
+          "gh.*cli",
+          "github.*workflow"
         ]
       }
     },
@@ -53,20 +53,23 @@
           "calendar",
           "行事曆",
           "google docs",
-          "文件",
+          "google sheets",
+          "google slides",
           "sheets",
           "試算表",
           "slides",
           "簡報",
           "youtube",
-          "drive",
+          "google drive",
           "雲端硬碟"
         ],
         "patterns": [
           "send.*email",
-          "create.*doc",
+          "google.*doc",
           "google.*workspace",
-          "calendar.*event"
+          "calendar.*event",
+          "google.*sheet",
+          "google.*slide"
         ]
       }
     },
@@ -75,19 +78,15 @@
       "triggers": {
         "keywords": [
           "notebooklm",
-          "notebook",
-          "筆記本",
-          "query",
-          "查詢",
-          "文件",
-          "documentation",
-          "source"
+          "notebook lm",
+          "筆記本"
         ],
         "patterns": [
-          "ask.*notebook",
-          "query.*doc",
-          "create.*notebook",
-          "add.*source"
+          "ask.*notebooklm",
+          "query.*notebooklm",
+          "create.*notebook.*lm",
+          "add.*source.*notebooklm",
+          "notebooklm.*source"
         ]
       }
     },
@@ -96,21 +95,20 @@
       "triggers": {
         "keywords": [
           "supabase",
-          "資料庫",
-          "database",
-          "migration",
           "edge function",
           "rls",
           "pgvector",
           "vector search",
-          "rag",
-          "postgresql"
+          "rag"
         ],
         "patterns": [
-          "database.*query",
+          "supabase.*query",
           "supabase.*setup",
+          "supabase.*migration",
+          "supabase.*database",
           "vector.*search",
-          "migration.*schema"
+          "supabase.*rls",
+          "supabase.*edge"
         ]
       }
     }
